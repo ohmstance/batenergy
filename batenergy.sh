@@ -7,8 +7,13 @@ sleep_type=$2
 
 now=`date +'%s'`
 
-read energy_now < /sys/class/power_supply/BAT0/energy_now #μWh
-read energy_full < /sys/class/power_supply/BAT0/energy_full # μWh
+read charge_now < /sys/class/power_supply/BAT0/charge_now #uAh
+read charge_full < /sys/class/power_supply/BAT0/charge_full #uAh
+read voltage_min_design < /sys/class/power_supply/BAT0/voltage_min_design #uV
+
+voltage=$(($voltage_min_design / 1000000)) #V
+energy_now=$((charge_now * voltage)) #uWh
+energy_full=$((charge_full * voltage)) #uWh
 read online < /sys/class/power_supply/AC/online
 
 
